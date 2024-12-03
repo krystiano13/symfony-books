@@ -12,9 +12,13 @@
         {% endblock %}
     </head>
     <body>
-        <aside class="w-64 fixed">
+        <aside class="w-64 hidden sm:block fixed">
             {% include "partials/_sidebar.html.twig" %}
         </aside>
+        <nav class="w-full fixed sm:hidden">
+            <section class="w-full h-10 bg-gray-50 border-b-2 border-solid"></section>
+            {% include "partials/_mobile_nav.html.twig" %}
+        </nav>
         <section class="w-full pl-72 pt-8">
             {% block body %}{% endblock %}
         </section>
