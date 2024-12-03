@@ -36,6 +36,7 @@ class Book
     #[Assert\Unique]
     #[Assert\NotNull]
     #[Assert\NotBlank]
+    #[Assert\Isbn(type: Assert\Isbn::ISBN_10)]
     private ?string $isbn = null;
 
     public function getId(): ?int
