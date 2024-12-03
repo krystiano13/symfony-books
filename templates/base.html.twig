@@ -16,7 +16,16 @@
             {% include "partials/_sidebar.html.twig" %}
         </aside>
         <nav class="w-full fixed sm:hidden">
-            <section class="w-full h-10 bg-gray-50 border-b-2 border-solid"></section>
+            <section class="z-50 w-full flex justify-between h-auto p-3 bg-gray-50 border-b-2 border-solid">
+                <span class="grid h-10 w-32 place-content-center rounded-lg bg-gray-100 text-xs text-gray-600">
+                    Books App
+                </span>
+                <button id="hamburger" class="flex flex-col rounded-full p-3 hover:bg-gray-200 transition-colors items-center justify-center gap-1.5">
+                    <div class="w-7 h-1 bg-gray-600"></div>
+                    <div class="w-7 h-1 bg-gray-600"></div>
+                    <div class="w-7 h-1 bg-gray-600"></div>
+                </button>
+            </section>
             {% include "partials/_mobile_nav.html.twig" %}
         </nav>
         <section class="w-full pl-72 pt-8">
