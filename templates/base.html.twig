@@ -12,6 +12,11 @@
         {% endblock %}
     </head>
     <body>
-        {% block body %}{% endblock %}
+        <aside class="w-64 fixed">
+            {% include "partials/_sidebar.html.twig" %}
+        </aside>
+        <section class="w-full pl-72 pt-8">
+            {% block body %}{% endblock %}
+        </section>
     </body>
 </html>
