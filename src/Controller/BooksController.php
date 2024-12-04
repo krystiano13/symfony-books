@@ -15,4 +15,11 @@ class BooksController extends AbstractController
             'controller_name' => 'BooksController',
         ]);
     }
+
+    #[Route('/books/create', name: 'app_books_create')]
+    public function create(): Response
+    {
+        $currentYear = date('Y');
+        return $this->render('books/create.html.twig', ["year" => $currentYear]);
+    }
 }

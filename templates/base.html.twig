@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
     <head>
         <meta charset="UTF-8">
         <title>{% block title %}Welcome!{% endblock %}</title>
@@ -11,7 +11,7 @@
             {% block importmap %}{{ importmap('app') }}{% endblock %}
         {% endblock %}
     </head>
-    <body>
+    <body class="min-h-[100vh]">
         <aside class="w-64 hidden sm:block fixed">
             {% include "partials/_sidebar.html.twig" %}
         </aside>
@@ -28,7 +28,7 @@
             </section>
             {% include "partials/_mobile_nav.html.twig" %}
         </nav>
-        <section class="w-full pl-4 sm:pl-72 pt-24 sm:pt-8">
+        <section class="w-full h-[100vh] px-4 sm:pl-72 pt-24 sm:pt-8">
             {% block body %}{% endblock %}
         </section>
     </body>
