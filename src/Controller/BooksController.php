@@ -27,15 +27,14 @@ class BooksController extends AbstractController
         ]);
     }
 
-    #[Route('/books', name: 'app_books_edit')]
+    #[Route('/books/edit/{id}', name: 'app_books_edit')]
     public function edit(int $id, BookRepository $bookRepository): Response
     {
         $book = $bookRepository->find($id);
 
         if(!$book)
         {
-            //TODO: Implement 404 page
-            return $this->json(["message" => "Book not found"], Response::HTTP_NOT_FOUND);
+            return $this->render("not_found.html.twig");
         }
 
         $currentYear = date('Y');

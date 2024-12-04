@@ -1,0 +1,19 @@
+{% extends "base.html.twig" %}
+
+{% block body %}
+    <div class="w-full h-full flex justify-center items-center">
+        <section class="text-center">
+            <h1 class="text-center text-4xl font-medium">
+                404 - Not Found
+            </h1>
+            <a href="{{ path('app_home_index') }}">
+                <button
+                        type="submit"
+                        class="mt-6 block w-full rounded-lg bg-indigo-600 px-5 py-3 text-sm font-medium text-white"
+                >
+                    Go Back
+                </button>
+            </a>
+        </section>
+    </div>
+{% endblock %}
