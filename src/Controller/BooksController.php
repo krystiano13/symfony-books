@@ -52,24 +52,49 @@ class BooksController extends AbstractController
         $errors = $validator->validate($book);
         $messages = array();
 
-        $this->checkForLimitations($br, $messages, $book);
+        $this->checkForLimitations($br, $messages, $book, true);
+        $this->handleErrors($errors, $messages);
 
-        if(count($errors) > 0 || count($messages) > 0)
+        if(count($messages) > 0)
         {
-            if(count($errors) > 0) {
-                foreach ($errors as $violation) {
-                    $msg = "{$violation->getPropertyPath()} - {$violation->getMessage()}";
-                    array_unshift($messages,$msg);
-                }
-            }
-
             return $this->json(["errors" => $messages], Response::HTTP_BAD_REQUEST);
         }
 
         $em->persist($book);
         $em->flush();
 
-        return $this->json($serializer->serialize($book, 'json'), Response::HTTP_CREATED);
+        return $this->json($book, Response::HTTP_CREATED);
+    }
+
+    #[Route('/books/{id}', name: 'app_books_update', methods: ['PATCH'])]
+    public function update(Request $request, int $id, BookRepository $bookRepository, SerializerInterface $serializer, ValidatorInterface $validator, EntityManagerInterface $em): Response
+    {
+        $book = $bookRepository->find($id);
+        $messages = array();
+
+        if($book)
+        {
+            $body = $serializer->deserialize($request->getContent(), Book::class, 'json');
+            $errors = $validator->validate($body);
+            $this->checkForLimitations($bookRepository, $messages, $book, false);
+            $this->handleErrors($errors, $messages);
+
+            if(count($messages) > 0)
+            {
+                return $this->json(["errors" => $messages], Response::HTTP_BAD_REQUEST);
+            }
+
+            $book->setTitle($body->getTitle());
+            $book->setAuthor($body->getAuthor());
+            $book->setIsbn($body->getIsbn());
+            $book->setReleaseDate($body->getReleaseDate());
+
+            $em->flush();
+
+            return $this->json($book, Response::HTTP_CREATED);
+        }
+
+        return $this->json(["errors" => ["book not found"]], Response::HTTP_NOT_FOUND);
     }
 
     #[Route('/books/edit/{id}', name: 'app_books_edit')]
@@ -90,13 +115,26 @@ class BooksController extends AbstractController
         ]);
     }
 
-    private function checkForLimitations(BookRepository &$br, array &$messages, Book $book)
+    private function handleErrors(&$errors, array &$messages)
+    {
+        if(count($errors) > 0 || count($messages) > 0)
+        {
+            if(count($errors) > 0) {
+                foreach ($errors as $violation) {
+                    $msg = "{$violation->getPropertyPath()} - {$violation->getMessage()}";
+                    array_unshift($messages,$msg);
+                }
+            }
+        }
+    }
+
+    private function checkForLimitations(BookRepository &$br, array &$messages, Book $book, bool $isCreatingNewBook)
     {
         $booksWithSameAuthor = $br->count(["author" => $book->getAuthor()]);
         $allBooksCount = $br->count();
         $bookCombinationCount = $br->count(["author" => $book->getAuthor(), "title" => $book->getTitle()]);
 
-        if($bookCombinationCount > 0) {
+        if($bookCombinationCount > 0 && $isCreatingNewBook) {
             array_unshift($messages, "This book is already in our database.");
         }
 
@@ -104,7 +142,7 @@ class BooksController extends AbstractController
             array_unshift($messages, "You can't add more than 5 books from same author.");
         }
 
-        if($allBooksCount >= 100) {
+        if($allBooksCount >= 100 && $isCreatingNewBook) {
             array_unshift($messages, "Online Library reached its maximum capacity (100 books)");
         }
     }
