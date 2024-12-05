@@ -34,20 +34,24 @@ class BooksController extends AbstractController
     }
 
     #[Route('/books', name: 'app_books', methods: ['POST'])]
-    public function create(Request $request, SerializerInterface $serializer, ValidatorInterface $validator, EntityManagerInterface $em): Response {
+    public function create(Request $request, SerializerInterface $serializer, ValidatorInterface $validator, EntityManagerInterface $em, BookRepository $br): Response {
         $body = $request->getContent();
         $book = $serializer->deserialize($body, Book::class, 'json');
         $errors = $validator->validate($book);
         $messages = array();
 
-        if(count($errors) > 0)
+        $this->checkForLimitations($br, $messages, $book);
+
+        if(count($errors) > 0 || count($messages) > 0)
         {
-            foreach ($errors as $violation) {
-                 $msg = "{$violation->getPropertyPath()} - {$violation->getMessage()}";
-                 array_unshift($messages,$msg);
+            if(count($errors) > 0) {
+                foreach ($errors as $violation) {
+                    $msg = "{$violation->getPropertyPath()} - {$violation->getMessage()}";
+                    array_unshift($messages,$msg);
+                }
             }
 
-            return $this->json($messages, Response::HTTP_BAD_REQUEST);
+            return $this->json(["errors" => $messages], Response::HTTP_BAD_REQUEST);
         }
 
         $em->persist($book);
@@ -72,5 +76,24 @@ class BooksController extends AbstractController
             "mode" => "edit",
             "book" => $book,
         ]);
+    }
+
+    private function checkForLimitations(BookRepository &$br, array &$messages, Book $book)
+    {
+        $booksWithSameAuthor = $br->count(["author" => $book->getAuthor()]);
+        $allBooksCount = $br->count();
+        $bookCombinationCount = $br->count(["author" => $book->getAuthor(), "title" => $book->getTitle()]);
+
+        if($bookCombinationCount > 0) {
+            array_unshift($messages, "This book is already in our database.");
+        }
+
+        if($booksWithSameAuthor >= 5) {
+            array_unshift($messages, "You can't add more than 5 books from same author.");
+        }
+
+        if($allBooksCount >= 100) {
+            array_unshift($messages, "Online Library reached its maximum capacity (100 books)");
+        }
     }
 }
