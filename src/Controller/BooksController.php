@@ -4,7 +4,6 @@ namespace App\Controller;
 
 use App\Entity\Book;
 use App\Repository\BookRepository;
-use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -21,6 +20,19 @@ class BooksController extends AbstractController
         return $this->render('books/index.html.twig', [
             'controller_name' => 'BooksController',
         ]);
+    }
+
+    #[Route('/books/{id}', name: 'book', methods: ['GET'])]
+    public function show(int $id, BookRepository $bookRepository): Response
+    {
+        $book = $bookRepository->find($id);
+
+        if(!$book)
+        {
+            return $this->json(["errors" => ["book not found"]], Response::HTTP_NOT_FOUND);
+        }
+
+        return $this->json(["book" => $book],200);
     }
 
     #[Route('/books/new', name: 'app_books_new')]
