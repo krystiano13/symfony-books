@@ -4,9 +4,11 @@ namespace App\Entity;
 
 use App\Repository\BookRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: BookRepository::class)]
+#[UniqueEntity('isbn')]
 class Book
 {
     #[ORM\Id]
@@ -33,7 +35,6 @@ class Book
     private ?int $release_date = null;
 
     #[ORM\Column(length: 255)]
-    #[Assert\Unique]
     #[Assert\NotNull]
     #[Assert\NotBlank]
     #[Assert\Isbn(type: Assert\Isbn::ISBN_10)]
