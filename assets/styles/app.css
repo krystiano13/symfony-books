@@ -2,6 +2,26 @@
 @tailwind components;
 @tailwind utilities;
 
+.btn {
+    @apply text-white p-1 px-4 transition-colors;
+}
+
+.list-item {
+    @apply flex items-center justify-between shadow-sm p-2;
+}
+
+.btn-section {
+    @apply flex items-center gap-2;
+}
+
+.btn-red {
+    @apply bg-red-500 hover:bg-red-600;
+}
+
+.btn-blue {
+    @apply bg-blue-500 hover:bg-blue-600;
+}
+
 .entry-animation-1 {
     animation: entry1 250ms;
 }
