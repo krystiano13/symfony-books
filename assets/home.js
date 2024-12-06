@@ -1,3 +1,5 @@
+const booksList = document.querySelector("#books-list");
+
 const books = await fetch(`http://localhost:8000/book`, {
     method: "GET",
     headers: {
@@ -7,4 +9,12 @@ const books = await fetch(`http://localhost:8000/book`, {
 
 const booksData = await books.json();
 
-console.log(booksData);
+if(booksData.books.length > 0) {
+    booksList.innerHTML = "";
+
+    booksData.books.forEach(item => {
+        const listElement = document.createElement("li");
+        listElement.innerText = `${item.title} - ${item.author}`;
+        booksList.appendChild(listElement);
+    })
+}
