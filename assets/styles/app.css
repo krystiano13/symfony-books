@@ -3,11 +3,11 @@
 @tailwind utilities;
 
 .btn {
-    @apply text-white p-1 px-4 transition-colors;
+    @apply text-white rounded-md p-1 px-4 transition-colors;
 }
 
 .list-item {
-    @apply flex items-center justify-between shadow-sm p-2;
+    @apply flex font-medium bg-white items-center justify-between border-b-2 border-b-gray-100 p-2;
 }
 
 .btn-section {

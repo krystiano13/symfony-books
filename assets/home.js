@@ -26,6 +26,18 @@ function createListElement(book) {
     return listElement;
 }
 
+function editBook() {
+
+}
+
+function deleteBook() {
+
+}
+
+function createBook() {
+
+}
+
 const books = await fetch(`http://localhost:8000/book`, {
     method: "GET",
     headers: {
