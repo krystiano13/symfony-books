@@ -1,6 +1,16 @@
 {% extends "base.html.twig" %}
 
+{% block javascripts %}
+    {% block importmap %}
+        {{ importmap('app') }}
+        {{ importmap('home') }}
+    {% endblock %}
+{% endblock %}
+
 {% block body %}
-    <h1 class="text-4xl">Home Page</h1>
-    <h2>Number of books: {{ count }}</h2>
+    <section class="w-full h-full flex justify-center items-center">
+        <ul>
+
+        </ul>
+    </section>
 {% endblock %}

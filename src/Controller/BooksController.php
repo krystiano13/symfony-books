@@ -14,12 +14,11 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class BooksController extends AbstractController
 {
-    #[Route('/books', name: 'app_books')]
-    public function index(): Response
+    #[Route('/book', name: 'app_book', methods: ['GET'])]
+    public function index(BookRepository $bookRepository): Response
     {
-        return $this->render('books/index.html.twig', [
-            'controller_name' => 'BooksController',
-        ]);
+       $books = $bookRepository->findAll();
+       return $this->json(['books' => $books], Response::HTTP_OK);
     }
 
     #[Route('/books/{id}', name: 'book', methods: ['GET'])]
