@@ -6,6 +6,10 @@
     @apply text-white rounded-md p-1 px-4 transition-colors;
 }
 
+.error {
+    @apply text-center text-red-500 font-medium text-lg;
+}
+
 .list-item {
     @apply flex font-medium bg-white items-center justify-between border-b-2 border-b-gray-100 p-2;
 }

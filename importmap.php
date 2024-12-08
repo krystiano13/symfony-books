@@ -19,5 +19,9 @@ return [
     'home' => [
         'path' => './assets/home.js',
         'entrypoint' => true,
+    ],
+    'create' => [
+        'path' => './assets/create.js',
+        'entrypoint' => true,
     ]
 ];

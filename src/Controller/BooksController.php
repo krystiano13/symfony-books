@@ -21,6 +21,16 @@ class BooksController extends AbstractController
        return $this->json(['books' => $books], Response::HTTP_OK);
     }
 
+    #[Route('/books/new', name: 'app_books_new')]
+    public function new(): Response
+    {
+        $currentYear = date('Y');
+        return $this->render('books/create.html.twig', [
+            "year" => $currentYear,
+            "mode" => "create",
+        ]);
+    }
+
     #[Route('/books/{id}', name: 'book', methods: ['GET'])]
     public function show(int $id, BookRepository $bookRepository): Response
     {
@@ -32,16 +42,6 @@ class BooksController extends AbstractController
         }
 
         return $this->json(["book" => $book],200);
-    }
-
-    #[Route('/books/new', name: 'app_books_new')]
-    public function new(): Response
-    {
-        $currentYear = date('Y');
-        return $this->render('books/create.html.twig', [
-            "year" => $currentYear,
-            "mode" => "create",
-        ]);
     }
 
     #[Route('/books', name: 'app_books', methods: ['POST'])]
