@@ -107,7 +107,7 @@ class BooksController extends AbstractController
         }
 
         $currentYear = date('Y');
-        return $this->render('books/create.html.twig', [
+        return $this->render('books/edit.html.twig', [
             "year" => $currentYear,
             "mode" => "edit",
             "book" => $book,

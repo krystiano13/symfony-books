@@ -12,6 +12,10 @@ function createListElement(book) {
     btnDelete.className = "btn btn-red";
     listElement.className = "list-item";
 
+    btnEdit.addEventListener('click', () => {
+        window.location.href = `/books/edit/${book.id}`;
+    })
+
     listElement.id = book.id;
     listText.innerText = `${book.title} - ${book.author}`;
     btnEdit.innerText = "Edit";
@@ -24,18 +28,6 @@ function createListElement(book) {
     listElement.appendChild(btnSection);
 
     return listElement;
-}
-
-function editBook() {
-
-}
-
-function deleteBook() {
-
-}
-
-function createBook() {
-
 }
 
 const books = await fetch(`http://localhost:8000/book`, {
