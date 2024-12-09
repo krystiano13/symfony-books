@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Book;
+use App\Controller\Trait\ValidationErrorTrait;
 use App\Repository\BookRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -14,6 +15,7 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class BooksController extends AbstractController
 {
+    use ValidationErrorTrait;
     #[Route('/book', name: 'app_book', methods: ['GET'])]
     public function index(BookRepository $bookRepository): Response
     {
@@ -135,19 +137,6 @@ class BooksController extends AbstractController
         }
 
         return $this->json(["errors" => ["book not found"]], Response::HTTP_NOT_FOUND);
-    }
-
-    private function handleErrors(&$errors, array &$messages)
-    {
-        if(count($errors) > 0 || count($messages) > 0)
-        {
-            if(count($errors) > 0) {
-                foreach ($errors as $violation) {
-                    $msg = "{$violation->getPropertyPath()} - {$violation->getMessage()}";
-                    array_unshift($messages,$msg);
-                }
-            }
-        }
     }
 
     private function checkForLimitations(BookRepository &$br, array &$messages, Book $book, bool $isCreatingNewBook)

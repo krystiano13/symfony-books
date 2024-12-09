@@ -2,10 +2,13 @@
 
 namespace App\Controller;
 
-use Doctrine\ORM\EntityManager;
+use App\Entity\User;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class UserController extends AbstractController
@@ -16,7 +19,10 @@ class UserController extends AbstractController
     }
 
     #[Route('/api/register', name: 'api_register', methods: ['POST'])]
-    public function create(): Response {
+    public function create(Request $request, SerializerInterface $serializer, ValidatorInterface $validator, EntityManagerInterface $em): Response {
+        $body = $request->getContent();
+        $user = $serializer->deserialize($body, User::class, 'json');
+        $errors = $validator->validate($user);
 
     }
 }
