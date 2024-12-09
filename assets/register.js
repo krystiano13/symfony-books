@@ -1,4 +1,4 @@
-import { renderErrors } from "./utils/form";
+import { renderErrors } from "./utils/form.js";
 
 const form = document.querySelector("#user-form");
 
@@ -6,7 +6,6 @@ async function createAccount() {
     const data = new FormData(form);
 
     const formBody = {
-        email: data.get("email"),
         username: data.get("username"),
         password: data.get("password"),
         password_confirmation: data.get("password_confirmation")
