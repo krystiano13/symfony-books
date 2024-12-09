@@ -1,5 +1,9 @@
 <form data-book="{{ mode == "edit" ? book.id : -1 }}" id="create-form" action="#" class="entry-animation-1 mb-0 mt-6 space-y-4 rounded-lg w-[90vw] sm:w-[32rem] p-4 shadow-lg sm:p-6 lg:p-8">
-    <p class="text-center text-lg font-medium">Create A New Book</p>
+    {% if mode == "edit" %}
+        <p class="text-center text-lg font-medium">Update Book</p>
+    {% else %}
+        <p class="text-center text-lg font-medium">Create A New Book</p>
+    {% endif %}
 
     <div>
         <label for="email" class="sr-only">Title</label>
@@ -79,7 +83,11 @@
             type="submit"
             class="block w-full rounded-lg bg-indigo-600 px-5 py-3 text-sm font-medium text-white"
     >
-        Create
+        {% if mode == "edit" %}
+            Edit
+        {% else %}
+            Create
+        {% endif %}
     </button>
     <section id="errors"></section>
 </form>
