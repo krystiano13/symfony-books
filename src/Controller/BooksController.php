@@ -48,7 +48,7 @@ class BooksController extends AbstractController
     public function create(Request $request, SerializerInterface $serializer, ValidatorInterface $validator, EntityManagerInterface $em, BookRepository $br): Response {
         $body = $request->getContent();
         $book = $serializer->deserialize($body, Book::class, 'json');
-        $errors = $validator->validate($book);
+        $errors = $validator->validate($book, groups: ['default']);
         $messages = array();
 
         $this->checkForLimitations($br, $messages, $book, true);
@@ -70,29 +70,35 @@ class BooksController extends AbstractController
     {
         $book = $bookRepository->find($id);
         $messages = array();
+        $errors = array();
 
         if($book)
         {
             $body = $serializer->deserialize($request->getContent(), Book::class, 'json');
-            $errors = $validator->validate($body);
-            //$this->checkForLimitations($bookRepository, $messages, $book, false);
-            $this->handleErrors($errors, $messages);
 
-            return $this->json(["errors" => $messages], Response::HTTP_BAD_REQUEST);
+            if($body->getIsbn() === $book->getIsbn()) {
+                $errors = $validator->validate($body, groups: ['update']);
+            }
+            else {
+                $errors = $validator->validate($body, groups: ['default']);
+            }
+
+            $this->checkForLimitations($bookRepository, $messages, $book, false);
+            $this->handleErrors($errors, $messages);
 
             if(count($messages) > 0)
             {
-
+                return $this->json(["errors" => $messages], Response::HTTP_BAD_REQUEST);
             }
 
-//            $book->setTitle($body->getTitle());
-//            $book->setAuthor($body->getAuthor());
-//            $book->setIsbn($body->getIsbn());
-//            $book->setReleaseDate($body->getReleaseDate());
-//
-//            $em->flush();
-//
-//            return $this->json($book, Response::HTTP_CREATED);
+            $book->setTitle($body->getTitle());
+            $book->setAuthor($body->getAuthor());
+            $book->setIsbn($body->getIsbn());
+            $book->setReleaseDate($body->getReleaseDate());
+
+            $em->flush();
+
+            return $this->json($book, Response::HTTP_CREATED);
         }
 
         return $this->json(["errors" => ["book not found"]], Response::HTTP_NOT_FOUND);

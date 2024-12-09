@@ -8,7 +8,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: BookRepository::class)]
-#[UniqueEntity(fields: ['isbn'], groups: ['default'])]
+#[UniqueEntity(fields: ['isbn'], groups: ['default'], message: 'ISBN already exists.')]
 class Book
 {
     #[ORM\Id]
