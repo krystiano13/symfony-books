@@ -122,7 +122,7 @@ class BooksController extends AbstractController
         ]);
     }
 
-    #[Route('/books/delete/{id}', name: 'app_books_delete', methods: ['DELETE'])]
+    #[Route('/books/{id}', name: 'app_books_delete', methods: ['DELETE'])]
     public function destroy(int $id, BookRepository $bookRepository, EntityManagerInterface $em): Response
     {
         $book = $bookRepository->find($id);

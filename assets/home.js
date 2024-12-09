@@ -1,5 +1,39 @@
 const booksList = document.querySelector("#books-list");
 
+async function destroy(id) {
+    await fetch(`http://127.0.0.1:8000/books/${id}`, {
+        method: "DELETE"
+    })
+        .then(res => {
+            if(res.ok) {
+                getBooks();
+            }
+            else {
+                alert("Could not delete this book")
+            }
+        })
+}
+
+async function getBooks() {
+    const books = await fetch(`http://localhost:8000/book`, {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json"
+        }
+    });
+
+    const booksData = await books.json();
+
+    if(booksData.books.length > 0) {
+        booksList.innerHTML = "";
+
+        booksData.books.forEach(item => {
+            const listElement = createListElement(item);
+            booksList.appendChild(listElement);
+        })
+    }
+}
+
 function createListElement(book) {
     const listElement = document.createElement("li");
     const listText = document.createElement("span");
@@ -16,6 +50,10 @@ function createListElement(book) {
         window.location.href = `/books/edit/${book.id}`;
     })
 
+    btnDelete.addEventListener('click', () => {
+        destroy(book.id)
+    })
+
     listElement.id = book.id;
     listText.innerText = `${book.title} - ${book.author}`;
     btnEdit.innerText = "Edit";
@@ -30,20 +68,4 @@ function createListElement(book) {
     return listElement;
 }
 
-const books = await fetch(`http://localhost:8000/book`, {
-    method: "GET",
-    headers: {
-        "Content-Type": "application/json"
-    }
-});
-
-const booksData = await books.json();
-
-if(booksData.books.length > 0) {
-    booksList.innerHTML = "";
-
-    booksData.books.forEach(item => {
-        const listElement = createListElement(item);
-        booksList.appendChild(listElement);
-    })
-}
+getBooks()
