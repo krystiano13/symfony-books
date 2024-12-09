@@ -27,5 +27,9 @@ return [
     'update' => [
         'path' => './assets/update.js',
         'entrypoint' => true,
+    ],
+    'register' => [
+        'path' => './assets/register.js',
+        'entrypoint' => true,
     ]
 ];

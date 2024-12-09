@@ -1,6 +1,6 @@
 const errorsSection = document.querySelector("#errors");
 
-function renderErrors(errors) {
+export function renderErrors(errors) {
     errors.forEach(item => {
         const paragraph = document.createElement("p");
         paragraph.innerText = item;
