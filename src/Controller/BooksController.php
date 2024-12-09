@@ -75,22 +75,24 @@ class BooksController extends AbstractController
         {
             $body = $serializer->deserialize($request->getContent(), Book::class, 'json');
             $errors = $validator->validate($body);
-            $this->checkForLimitations($bookRepository, $messages, $book, false);
+            //$this->checkForLimitations($bookRepository, $messages, $book, false);
             $this->handleErrors($errors, $messages);
+
+            return $this->json(["errors" => $messages], Response::HTTP_BAD_REQUEST);
 
             if(count($messages) > 0)
             {
-                return $this->json(["errors" => $messages], Response::HTTP_BAD_REQUEST);
+
             }
 
-            $book->setTitle($body->getTitle());
-            $book->setAuthor($body->getAuthor());
-            $book->setIsbn($body->getIsbn());
-            $book->setReleaseDate($body->getReleaseDate());
-
-            $em->flush();
-
-            return $this->json($book, Response::HTTP_CREATED);
+//            $book->setTitle($body->getTitle());
+//            $book->setAuthor($body->getAuthor());
+//            $book->setIsbn($body->getIsbn());
+//            $book->setReleaseDate($body->getReleaseDate());
+//
+//            $em->flush();
+//
+//            return $this->json($book, Response::HTTP_CREATED);
         }
 
         return $this->json(["errors" => ["book not found"]], Response::HTTP_NOT_FOUND);

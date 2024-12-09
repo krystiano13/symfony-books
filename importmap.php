@@ -23,5 +23,9 @@ return [
     'create' => [
         'path' => './assets/create.js',
         'entrypoint' => true,
+    ],
+    'update' => [
+        'path' => './assets/update.js',
+        'entrypoint' => true,
     ]
 ];

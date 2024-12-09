@@ -8,7 +8,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: BookRepository::class)]
-#[UniqueEntity('isbn')]
+#[UniqueEntity(fields: ['isbn'], groups: ['default'])]
 class Book
 {
     #[ORM\Id]
@@ -17,27 +17,27 @@ class Book
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Assert\NotNull]
-    #[Assert\Length(min: 3, max: 255)]
-    #[Assert\NotNull]
+    #[Assert\NotBlank(groups: ['default', 'update'])]
+    #[Assert\NotNull(groups: ['default', 'update'])]
+    #[Assert\Length(min: 3, max: 255, groups: ['default', 'update'])]
     private ?string $title = null;
 
     #[ORM\Column(length: 255)]
-    #[Assert\NotNull]
-    #[Assert\Length(min: 3, max: 255)]
-    #[Assert\NotBlank]
+    #[Assert\NotNull(groups: ['default', 'update'])]
+    #[Assert\Length(min: 3, max: 255, groups: ['default', 'update'])]
+    #[Assert\NotBlank(groups: ['default', 'update'])]
     private ?string $author = null;
 
     #[ORM\Column]
-    #[Assert\NotNull]
-    #[Assert\NotBlank]
-    #[Assert\Range(min:1900, max: 2024)]
+    #[Assert\NotNull(groups: ['default', 'update'])]
+    #[Assert\NotBlank(groups: ['default', 'update'])]
+    #[Assert\Range(min:1900, max: 2024, groups: ['default', 'update'])]
     private ?int $release_date = null;
 
     #[ORM\Column(length: 255)]
-    #[Assert\NotNull]
-    #[Assert\NotBlank]
-    #[Assert\Isbn(type: Assert\Isbn::ISBN_10)]
+    #[Assert\NotNull(groups: ['default', 'update'])]
+    #[Assert\NotBlank(groups: ['default', 'update'])]
+    #[Assert\Isbn(type: Assert\Isbn::ISBN_10, groups: ['default', 'update'])]
     private ?string $isbn = null;
 
     public function getId(): ?int
