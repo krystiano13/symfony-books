@@ -1,0 +1,5 @@
+lexik_jwt_authentication:
+  secret_key: "TestSecret123"
+  public_key: "TestSecret123"
+  pass_phrase: "Test123"
+  token_ttl: 3600
