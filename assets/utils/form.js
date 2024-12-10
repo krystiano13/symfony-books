@@ -24,7 +24,8 @@ export async function handleFormSubmit(method, form, bookId = -1) {
     await fetch(`http://127.0.0.1:8000/books${method === "PATCH" ? `/${bookId}` : ""}`, {
         method: method,
         headers: {
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`
         },
         body: JSON.stringify(formBody)
     })

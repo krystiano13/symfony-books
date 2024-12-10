@@ -2,7 +2,10 @@ const booksList = document.querySelector("#books-list");
 
 async function destroy(id) {
     await fetch(`http://127.0.0.1:8000/books/${id}`, {
-        method: "DELETE"
+        method: "DELETE",
+        headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`
+        }
     })
         .then(res => {
             if(res.ok) {
@@ -59,8 +62,11 @@ function createListElement(book) {
     btnEdit.innerText = "Edit";
     btnDelete.innerText = "Delete";
 
-    btnSection.appendChild(btnEdit);
-    btnSection.appendChild(btnDelete);
+    if(localStorage.getItem("token"))
+    {
+        btnSection.appendChild(btnEdit);
+        btnSection.appendChild(btnDelete);
+    }
 
     listElement.appendChild(listText);
     listElement.appendChild(btnSection);
