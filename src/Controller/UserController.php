@@ -16,9 +16,14 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 class UserController extends AbstractController
 {
     use ValidationErrorTrait;
-    #[Route('/user/new', name: 'user.create', methods: ['GET', 'HEAD'])]
-    public function newUser() {
+    #[Route('/register', name: 'user.create', methods: ['GET', 'HEAD'])]
+    public function register() {
         return $this->render('user/new.html.twig');
+    }
+
+    #[Route('/login', name: 'user.login', methods: ['GET', 'HEAD'])]
+    public function login() {
+        return $this->render('user/login.html.twig');
     }
 
     #[Route('/api/register', name: 'api_register', methods: ['POST'])]
@@ -28,6 +33,9 @@ class UserController extends AbstractController
         $bodyDeserialized = json_decode($body, true);
         $user = $serializer->deserialize($body, User::class, 'json');
         $errors = $validator->validate($user);
+
+        $user->setUsername(trim($user->getUsername()));
+
         $this->handleErrors($errors, $messages);
 
         if($bodyDeserialized['password'] !== $bodyDeserialized['password_confirmation']) {
