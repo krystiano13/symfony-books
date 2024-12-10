@@ -46,7 +46,7 @@ class BooksController extends AbstractController
         return $this->json(["book" => $book],200);
     }
 
-    #[Route('/books', name: 'app_books', methods: ['POST'])]
+    #[Route('/api/books', name: 'app_books', methods: ['POST'])]
     public function create(Request $request, SerializerInterface $serializer, ValidatorInterface $validator, EntityManagerInterface $em, BookRepository $br): Response {
         $body = $request->getContent();
         $book = $serializer->deserialize($body, Book::class, 'json');
@@ -67,7 +67,7 @@ class BooksController extends AbstractController
         return $this->json($book, Response::HTTP_CREATED);
     }
 
-    #[Route('/books/{id}', name: 'app_books_update', methods: ['PATCH'])]
+    #[Route('/api/books/{id}', name: 'app_books_update', methods: ['PATCH'])]
     public function update(Request $request, int $id, BookRepository $bookRepository, SerializerInterface $serializer, ValidatorInterface $validator, EntityManagerInterface $em): Response
     {
         $book = $bookRepository->find($id);
@@ -124,7 +124,7 @@ class BooksController extends AbstractController
         ]);
     }
 
-    #[Route('/books/{id}', name: 'app_books_delete', methods: ['DELETE'])]
+    #[Route('/api/books/{id}', name: 'app_books_delete', methods: ['DELETE'])]
     public function destroy(int $id, BookRepository $bookRepository, EntityManagerInterface $em): Response
     {
         $book = $bookRepository->find($id);

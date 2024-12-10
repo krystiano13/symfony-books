@@ -21,7 +21,7 @@ export async function handleFormSubmit(method, form, bookId = -1) {
         release_date: Number(data.get("release_date"))
     }
 
-    await fetch(`http://127.0.0.1:8000/books${method === "PATCH" ? `/${bookId}` : ""}`, {
+    await fetch(`http://127.0.0.1:8000/api/books${method === "PATCH" ? `/${bookId}` : ""}`, {
         method: method,
         headers: {
             "Content-Type": "application/json",

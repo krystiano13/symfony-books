@@ -3,11 +3,11 @@ import { renderErrors } from "./utils/form.js";
 const form = document.querySelector("#user-form");
 
 async function login() {
-    const data = new FormData(form);
+    const formData = new FormData(form);
 
     const formBody = {
-        username: data.get("username"),
-        password: data.get("password"),
+        username: formData.get("username"),
+        password: formData.get("password"),
     }
 
     await fetch("http://127.0.0.1:8000/api/login_check", {
@@ -28,6 +28,7 @@ async function login() {
         })
         .then(data => {
             localStorage.setItem("token", data.token);
+            localStorage.setItem("username", formData.get("username"))
             window.location.href = "/";
         })
 }
