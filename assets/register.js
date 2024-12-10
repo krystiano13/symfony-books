@@ -17,7 +17,12 @@ async function createAccount() {
     })
         .then(res => res.json())
         .then(data => {
-            console.log(data)
+            if(data.errors) {
+                renderErrors(data.errors);
+            }
+            else {
+                window.location.href = "/login";
+            }
         })
 }
 
