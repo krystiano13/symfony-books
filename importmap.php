@@ -35,5 +35,9 @@ return [
     'login' => [
         'path' => './assets/login.js',
         'entrypoint' => true,
+    ],
+    'menu' => [
+        'path' => './assets/menu.js',
+        'entrypoint' => true,
     ]
 ];
