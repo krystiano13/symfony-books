@@ -1,3 +1,22 @@
+import qs from 'qs';
+
+let releaseDateSort = undefined;
+let titleSort = undefined;
+let authorSort = undefined;
+
+const data = {
+    filters: [
+
+    ],
+    sort: {
+        release_date: releaseDateSort,
+        title: titleSort,
+        author: authorSort,
+    }
+}
+
+const queryString = qs.stringify(data, { arrayFormat: "brackets" })
+
 const booksList = document.querySelector("#books-list");
 
 async function destroy(id) {
@@ -18,7 +37,7 @@ async function destroy(id) {
 }
 
 async function getBooks() {
-    const books = await fetch(`http://localhost:8000/book`, {
+    const books = await fetch(`http://localhost:8000/book?${queryString}`, {
         method: "GET",
         headers: {
             "Content-Type": "application/json"
@@ -26,6 +45,8 @@ async function getBooks() {
     });
 
     const booksData = await books.json();
+
+    console.log(booksData)
 
     if(booksData.books.length > 0) {
         booksList.innerHTML = "";

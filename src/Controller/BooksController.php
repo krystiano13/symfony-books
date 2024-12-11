@@ -17,10 +17,12 @@ class BooksController extends AbstractController
 {
     use ValidationErrorTrait;
     #[Route('/book', name: 'app_book', methods: ['GET'])]
-    public function index(BookRepository $bookRepository): Response
+    public function index(BookRepository $bookRepository, Request $request): Response
     {
-       $books = $bookRepository->findAll();
-       return $this->json(['books' => $books], Response::HTTP_OK);
+        $sorting = $request->get("sort");
+
+        $books = $bookRepository -> findBy([], $sorting);
+        return $this->json(['books' => $books], Response::HTTP_OK);
     }
 
     #[Route('/books/new', name: 'app_books_new')]
