@@ -4,10 +4,16 @@ let releaseDateSort = undefined;
 let titleSort = undefined;
 let authorSort = undefined;
 
-const data = {
-    filters: [
+let releaseDateFilter = undefined;
+let titleFilter = undefined;
+let authorFilter = undefined;
 
-    ],
+const data = {
+    filters: {
+        release_date: releaseDateFilter,
+        title: titleFilter,
+        author: authorFilter,
+    },
     sort: {
         release_date: releaseDateSort,
         title: titleSort,

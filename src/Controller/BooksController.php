@@ -17,11 +17,28 @@ class BooksController extends AbstractController
 {
     use ValidationErrorTrait;
     #[Route('/book', name: 'app_book', methods: ['GET'])]
-    public function index(BookRepository $bookRepository, Request $request): Response
+    public function index(BookRepository $bookRepository, Request $request, EntityManagerInterface $em): Response
     {
         $sorting = $request->get("sort");
+        $filters = $request->get("filters");
 
-        $books = $bookRepository -> findBy([], $sorting);
+        $queryBuilder = $em->getRepository(Book::class)->createQueryBuilder("book");
+
+        if($sorting) {
+            foreach ($sorting as $key => $value) {
+                $queryBuilder->addOrderBy("book.$key", $value);
+            }
+        }
+
+        if($filters) {
+            foreach ($filters as $key => $value) {
+                $queryBuilder
+                    ->andWhere("book.$key LIKE :$key")
+                    ->setParameter($key, "%$value%");;
+            }
+        }
+
+        $books = $queryBuilder->getQuery()->getResult();
         return $this->json(['books' => $books], Response::HTTP_OK);
     }
 
