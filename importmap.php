@@ -39,5 +39,8 @@ return [
     'menu' => [
         'path' => './assets/menu.js',
         'entrypoint' => true,
-    ]
+    ],
+    'jwt-decode' => [
+        'version' => '4.0.0',
+    ],
 ];

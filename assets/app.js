@@ -1,4 +1,24 @@
 import './styles/app.css';
+import { jwtDecode } from "jwt-decode";
+
+const token = localStorage.getItem("token");
+
+if(!token && window.location.pathname !== "/register" && window.location.pathname !== "/login") {
+    window.location.href = "/login";
+}
+
+const tokenDecoded = jwtDecode(token);
+
+if(!tokenDecoded.username && window.location.pathname !== "/register" && window.location.pathname !== "/login") {
+    window.location.href = "/login";
+}
+
+if(tokenDecoded.username) {
+    const usernames = document.querySelectorAll(".username");
+    usernames.forEach(element => {
+        element.innerHTML = tokenDecoded.username;
+    })
+}
 
 let mobileNavShown = false;
 const mobileNav = document.querySelector("#mobile-nav");

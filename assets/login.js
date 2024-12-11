@@ -28,7 +28,6 @@ async function login() {
         })
         .then(data => {
             localStorage.setItem("token", data.token);
-            localStorage.setItem("username", formData.get("username"))
             window.location.href = "/";
         })
 }
