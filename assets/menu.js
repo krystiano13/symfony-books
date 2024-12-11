@@ -1,4 +1,5 @@
 const logoutButton = document.querySelector("#logout");
+const logo = document.querySelector("#logo");
 
 function logout() {
     localStorage.removeItem("token");
@@ -7,4 +8,4 @@ function logout() {
 }
 
 logoutButton.addEventListener("click", () => logout());
-
+logo.addEventListener("click", () => window.location.href = "/");
