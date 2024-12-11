@@ -2,6 +2,10 @@ import { renderErrors } from "./utils/form.js";
 
 const form = document.querySelector("#user-form");
 
+if(localStorage.getItem("token")) {
+    window.location.href = "/";
+}
+
 async function createAccount() {
     const data = new FormData(form);
 

@@ -10,6 +10,7 @@ if(!token && window.location.pathname !== "/register" && window.location.pathnam
 const tokenDecoded = jwtDecode(token);
 
 if(!tokenDecoded.username && window.location.pathname !== "/register" && window.location.pathname !== "/login") {
+    localStorage.removeItem("token");
     window.location.href = "/login";
 }
 

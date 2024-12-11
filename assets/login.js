@@ -1,5 +1,9 @@
 import { renderErrors } from "./utils/form.js";
 
+if(localStorage.getItem("token")) {
+    window.location.href = "/";
+}
+
 const form = document.querySelector("#user-form");
 
 async function login() {
