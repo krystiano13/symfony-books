@@ -1,27 +1,60 @@
 import qs from 'qs';
-
-let releaseDateSort = undefined;
-let titleSort = undefined;
-let authorSort = undefined;
-
-let releaseDateFilter = undefined;
-let titleFilter = undefined;
-let authorFilter = undefined;
+import { debounce } from "./utils/debounce.js";
 
 const data = {
     filters: {
-        release_date: releaseDateFilter,
-        title: titleFilter,
-        author: authorFilter,
+        release_date: undefined,
+        title: undefined,
+        author: undefined,
     },
     sort: {
-        release_date: releaseDateSort,
-        title: titleSort,
-        author: authorSort,
+        release_date: undefined,
+        title: undefined,
+        author: undefined,
     }
 }
 
-const queryString = qs.stringify(data, { arrayFormat: "brackets" })
+const select = document.querySelector("select");
+const titleInput = document.querySelector("#title-filter");
+const authorInput = document.querySelector("#author-filter");
+const yearInput = document.querySelector("#year-filter");
+
+select.addEventListener("change", debounce((e) => {
+    console.log(e.target.value)
+    switch(e.target.value) {
+        case "title-asc":
+            data.sort.title = "asc";
+            data.sort.release_date = undefined;
+            data.sort.author = undefined;
+            break;
+        case "title-desc":
+            data.sort.title = "desc";
+            data.sort.release_date = undefined;
+            data.sort.author = undefined;
+            break;
+        case "author-asc":
+            data.sort.title = undefined;
+            data.sort.release_date = undefined;
+            data.sort.author = "asc";
+            break;
+        case "author-desc":
+            data.sort.title = undefined;
+            data.sort.release_date = undefined;
+            data.sort.author = "desc";
+            break;
+        case "ry-asc":
+            data.sort.title = undefined;
+            data.sort.release_date = "asc";
+            data.sort.author = undefined;
+            break;
+        case "ry-desc":
+            data.sort.title = undefined;
+            data.sort.release_date = "desc";
+            data.sort.author = undefined;
+            break;
+    }
+    getBooks();
+}, 500))
 
 const booksList = document.querySelector("#books-list");
 
@@ -43,6 +76,10 @@ async function destroy(id) {
 }
 
 async function getBooks() {
+    console.log(data);
+
+    const queryString = qs.stringify(data, { arrayFormat: "brackets" })
+
     const books = await fetch(`http://localhost:8000/book?${queryString}`, {
         method: "GET",
         headers: {
@@ -51,8 +88,6 @@ async function getBooks() {
     });
 
     const booksData = await books.json();
-
-    console.log(booksData)
 
     if(booksData.books.length > 0) {
         booksList.innerHTML = "";
