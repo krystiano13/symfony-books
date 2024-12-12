@@ -1,6 +1,6 @@
-const loginButton = document.querySelector("#login");
-const registerButton = document.querySelector("#register");
-const logoutButton = document.querySelector("#logout");
+const loginButton = document.querySelectorAll(".login");
+const registerButton = document.querySelectorAll(".register");
+const logoutButton = document.querySelectorAll(".logout");
 const logo = document.querySelector("#logo");
 
 function logout() {
@@ -10,15 +10,19 @@ function logout() {
 }
 
 if(localStorage.getItem("token")) {
-    registerButton.style.display = "none";
-    loginButton.style.display = "none";
+    registerButton.forEach(item => {
+        item.style.display = "none"
+    })
+    loginButton.forEach(item => item.style.display = "none")
 }
 
 if(!localStorage.getItem("token")) {
-    logoutButton.style.display = "none";
+    logoutButton.forEach(item => {
+        item.style.display = "none"
+    });
 }
 
-logoutButton.addEventListener("click", () => logout());
-loginButton.addEventListener("click", () => window.location.href = "/login");
-registerButton.addEventListener("click", () => window.location.href = "/register");
+logoutButton.forEach(item => item.addEventListener("click", () => logout()))
+loginButton.forEach(item => item.addEventListener("click", () => window.location.href = "/login"))
+registerButton.forEach(item => item.addEventListener("click", () => window.location.href = "/register"))
 logo.addEventListener("click", () => window.location.href = "/");
