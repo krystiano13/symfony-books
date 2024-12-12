@@ -19,6 +19,21 @@ const titleInput = document.querySelector("#title-filter");
 const authorInput = document.querySelector("#author-filter");
 const yearInput = document.querySelector("#year-filter");
 
+titleInput.addEventListener("input",debounce(e => {
+    data.filters.title = e.target.value;
+    getBooks();
+}, 500))
+
+authorInput.addEventListener("input",debounce(e => {
+    data.filters.author = e.target.value;
+    getBooks();
+}, 500))
+
+yearInput.addEventListener("input",debounce(e => {
+    data.filters.release_date = e.target.value;
+    getBooks();
+}, 500))
+
 select.addEventListener("change", debounce((e) => {
     console.log(e.target.value)
     switch(e.target.value) {
@@ -76,8 +91,6 @@ async function destroy(id) {
 }
 
 async function getBooks() {
-    console.log(data);
-
     const queryString = qs.stringify(data, { arrayFormat: "brackets" })
 
     const books = await fetch(`http://localhost:8000/book?${queryString}`, {
