@@ -10,22 +10,22 @@
 
 {% block body %}
     <section class="w-full h-full flex flex-col gap-5 justify-center items-center">
-        <div class="bg-gray-50 p-2 flex items-center gap-6 min-h-16 overflow-y-auto rounded-md sm:w-[50rem] w-[90vw]">
+        <div class="bg-gray-50 p-3 flex items-center gap-6 min-h-16 overflow-y-auto rounded-md sm:w-[50rem] w-[90vw]">
             <div>
                 <label>Title</label>
-                <input id="title-filter" type="text" />
+                <input class="rounded-lg border-gray-200 p-2 pe-6 text-sm shadow-sm" id="title-filter" type="text" />
             </div>
             <div>
                 <label>Author</label>
-                <input id="author-filter" type="text" />
+                <input class="rounded-lg border-gray-200 p-2 pe-6 text-sm shadow-sm" id="author-filter" type="text" />
             </div>
             <div>
                 <label>Year</label>
-                <input id="year-filter" min="1900" max="2024" type="number" />
+                <input class="rounded-lg border-gray-200 p-2 pe-6 text-sm shadow-sm" id="year-filter" min="1900" max="2024" type="number" />
             </div>
             <div>
                 <label>Sort by</label>
-                <select>
+                <select class="rounded-lg border-gray-200 p-2 pe-6 text-sm shadow-sm">
                     <option value="ry-asc">Release Year - Ascending</option>
                     <option value="ry-desc">Release Year - Descending</option>
                     <option value="title-asc">Title - Ascending</option>
